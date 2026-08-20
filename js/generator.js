@@ -78,28 +78,6 @@ let processing = false;
 
 
 
-// ===============================
-// NAVBAR MOBILE
-// ===============================
-
-const navToggle =
-document.querySelector("#navToggle");
-
-const navLinks =
-document.querySelector("#navLinks");
-
-
-if(navToggle){
-
-    navToggle.onclick = ()=>{
-
-        navLinks.classList.toggle("open");
-
-    };
-
-}
-
-
 
 // ===============================
 // STYLE SELECTOR

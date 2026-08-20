@@ -1,168 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generator - AvatarForge AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
+  </head>
+  <body>
     <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="container navbar-container">
-            <div class="navbar-brand">
-                <span class="brand-icon">✦</span>
-                <span class="brand-text">Avatar<span class="brand-highlight">Forge</span> AI</span>
-            </div>
-            <ul class="navbar-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="generator.html" class="active">Generator</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-            </ul>
-            <div class="navbar-actions">
-                <a href="generator.html" class="btn btn-primary btn-sm">Get Started</a>
-                <button class="nav-toggle" id="navToggle">
-                    <span class="hamburger"></span>
-                </button>
-            </div>
+      <div class="container navbar-container">
+        <div class="navbar-brand">
+          <span class="brand-icon">✦</span>
+          <span class="brand-text"
+            >Avatar<span class="brand-highlight">Forge</span> AI</span
+          >
         </div>
+        <ul class="navbar-links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="generator.html" class="active">Generator</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+        <div class="navbar-actions">
+          <a href="generator.html" class="btn btn-primary btn-sm"
+            >Get Started</a
+          >
+          <button class="nav-toggle" id="navToggle" type="button">
+            <span class="hamburger"></span>
+          </button>
+        </div>
+      </div>
     </nav>
 
     <!-- GENERATOR -->
     <section class="generator-page">
-        <div class="container">
-            <div class="generator-header">
-                <h1>Create Your <span class="gradient-text">3D Avatar</span></h1>
-                <p>Upload a clear portrait photo and let AI do the magic.</p>
-                <span class="powered-badge">
-                    <i class="fas fa-bolt"></i> Powered by ReadyPlayer.me AI
-                </span>
-            </div>
-
-            <div class="generator-grid">
-                <!-- Upload Section -->
-                <div class="upload-section">
-                    <div class="upload-zone" id="uploadZone">
-                        <input type="file" id="imageInput" accept="image/*" />
-                        <div class="upload-content">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <h3>Drag & Drop Your Photo</h3>
-                            <p>or click to browse</p>
-                            <span class="upload-hint">Supports JPG, PNG, WEBP (Max 10MB)</span>
-                        </div>
-                        <div class="upload-preview" id="uploadPreview">
-                            <img id="previewImage" alt="Upload preview" />
-                            <button class="remove-image" id="removeImage">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Style Selector -->
-                    <div class="style-selector">
-                        <label>Avatar Style:</label>
-                        <div class="style-options">
-                            <button class="style-btn active" data-style="realistic">
-                                <i class="fas fa-user"></i> Realistic
-                            </button>
-                            <button class="style-btn" data-style="stylized">
-                                <i class="fas fa-paint-brush"></i> Stylized
-                            </button>
-                            <button class="style-btn" data-style="cartoon">
-                                <i class="fas fa-smile"></i> Cartoon
-                            </button>
-                            <button class="style-btn" data-style="anime">
-                                <i class="fas fa-dragon"></i> Anime
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="upload-actions">
-                        <button class="btn btn-primary btn-lg generate-btn" id="generateBtn" disabled>
-                            <i class="fas fa-wand-magic-sparkles"></i> Generate Avatar
-                        </button>
-                        <button class="btn btn-outline btn-lg" id="resetBtn">
-                            <i class="fas fa-undo"></i> Reset
-                        </button>
-                    </div>
-
-                    <!-- Processing -->
-                    <div class="processing-overlay" id="processingOverlay">
-                        <div class="processing-content">
-                            <div class="processing-spinner"></div>
-                            <h3>AI is Generating Your Avatar</h3>
-                            <p id="processingStatus">Analyzing your photo...</p>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill"></div>
-                            </div>
-                            <p class="processing-tip">
-                                <i class="fas fa-info-circle"></i> This may take 10-20 seconds
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Result -->
-                <div class="result-section" id="resultSection">
-                    <div class="result-placeholder">
-                        <i class="fas fa-cube"></i>
-                        <h3>Your 3D Avatar Will Appear Here</h3>
-                        <p>Upload a photo and click generate to get started.</p>
-                    </div>
-                    <div class="result-content" id="resultContent" style="display: none;">
-                        <div class="result-3d-container" id="result3dContainer"></div>
-                        <div class="result-actions">
-                            <button class="btn btn-primary" id="downloadBtn">
-                                <i class="fas fa-download"></i> Download GLB
-                            </button>
-                            <button class="btn btn-outline" id="viewInGalleryBtn">
-                                <i class="fas fa-images"></i> View in Gallery
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="generator-header">
+          <h1>Create Your <span class="gradient-text">3D Avatar</span></h1>
+          <p>Upload a clear portrait photo and let AI do the magic.</p>
+          <span class="powered-badge">
+            <i class="fas fa-bolt"></i> Powered by ReadyPlayer.me AI
+          </span>
         </div>
+
+        <div class="generator-grid">
+          <!-- Upload Section -->
+          <div class="upload-section">
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" id="imageInput" accept="image/*" />
+              <div class="upload-content">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drag & Drop Your Photo</h3>
+                <p>or click to browse</p>
+                <span class="upload-hint"
+                  >Supports JPG, PNG, WEBP (Max 10MB)</span
+                >
+              </div>
+              <div class="upload-preview" id="uploadPreview">
+                <img id="previewImage" alt="Upload preview" />
+                <button class="remove-image" id="removeImage">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Style Selector -->
+            <div class="style-selector">
+              <label>Avatar Style:</label>
+              <div class="style-options">
+                <button class="style-btn active" data-style="realistic">
+                  <i class="fas fa-user"></i> Realistic
+                </button>
+                <button class="style-btn" data-style="stylized">
+                  <i class="fas fa-paint-brush"></i> Stylized
+                </button>
+                <button class="style-btn" data-style="cartoon">
+                  <i class="fas fa-smile"></i> Cartoon
+                </button>
+                <button class="style-btn" data-style="anime">
+                  <i class="fas fa-dragon"></i> Anime
+                </button>
+              </div>
+            </div>
+
+            <div class="upload-actions">
+              <button
+                class="btn btn-primary btn-lg generate-btn"
+                id="generateBtn"
+                disabled
+              >
+                <i class="fas fa-wand-magic-sparkles"></i> Generate Avatar
+              </button>
+              <button class="btn btn-outline btn-lg" id="resetBtn">
+                <i class="fas fa-undo"></i> Reset
+              </button>
+            </div>
+
+            <!-- Processing -->
+            <div class="processing-overlay" id="processingOverlay">
+              <div class="processing-content">
+                <div class="processing-spinner"></div>
+                <h3>AI is Generating Your Avatar</h3>
+                <p id="processingStatus">Analyzing your photo...</p>
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="processing-tip">
+                  <i class="fas fa-info-circle"></i> This may take 10-20 seconds
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div class="result-section" id="resultSection">
+            <div class="result-placeholder">
+              <i class="fas fa-cube"></i>
+              <h3>Your 3D Avatar Will Appear Here</h3>
+              <p>Upload a photo and click generate to get started.</p>
+            </div>
+            <div
+              class="result-content"
+              id="resultContent"
+              style="display: none"
+            >
+              <div class="result-3d-container" id="result3dContainer"></div>
+              <div class="result-actions">
+                <button class="btn btn-primary" id="downloadBtn">
+                  <i class="fas fa-download"></i> Download GLB
+                </button>
+                <button class="btn btn-outline" id="viewInGalleryBtn">
+                  <i class="fas fa-images"></i> View in Gallery
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="brand-icon">✦</span>
-                    <span class="brand-text">Avatar<span class="brand-highlight">Forge</span> AI</span>
-                    <p>Create stunning 3D avatars with the power of artificial intelligence.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Product</h4>
-                    <a href="generator.html">Generator</a>
-                    <a href="gallery.html">Gallery</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AvatarForge AI. All rights reserved.</p>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="brand-icon">✦</span>
+            <span class="brand-text"
+              >Avatar<span class="brand-highlight">Forge</span> AI</span
+            >
+            <p>
+              Create stunning 3D avatars with the power of artificial
+              intelligence.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Product</h4>
+            <a href="generator.html">Generator</a>
+            <a href="gallery.html">Gallery</a>
+          </div>
+          <div class="footer-links">
+            <h4>Legal</h4>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 AvatarForge AI. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Three.js -->
-  
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
-<script src="js/generator.js"></script>
-
-
-  
-</body>
+    <script src="js/generator.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>
