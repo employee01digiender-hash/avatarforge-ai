@@ -35,6 +35,15 @@ if (navToggle && navLinks) {
 
             navLinks.classList.remove('open');
 
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            navLinks.classList.toggle('open');
+        });
+        navLinks.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navLinks.classList.remove('open');
+            });
         });
 
     });
@@ -55,6 +64,11 @@ if (navbar) {
     }, { passive: true });
 
 }
+    if (navbar) {
+        window.addEventListener('scroll', function () {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        }, { passive: true });
+    }
 
     // Three.js Hero Viewer
     const container = document.getElementById('hero3dContainer');
