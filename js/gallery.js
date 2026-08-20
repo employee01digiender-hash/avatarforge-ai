@@ -1,280 +1,120 @@
-
-
 (function () {
+  "use strict";
 
-    "use strict";
+  // ===============================
+  // CONFIG
+  // ===============================
 
+  const STORAGE_KEY = "avatarforge_gallery";
 
-    // ===============================
-    // CONFIG
-    // ===============================
+  // ===============================
+  // DOM
+  // ===============================
 
-    const STORAGE_KEY =
-        "avatarforge_gallery";
+  const galleryGrid = document.querySelector("#galleryGrid");
 
+  const galleryEmpty = document.querySelector("#galleryEmpty");
 
+  const galleryActions = document.querySelector("#galleryActions");
 
-    // ===============================
-    // DOM
-    // ===============================
+  const totalAvatars = document.querySelector("#totalAvatars");
 
+  const recentCount = document.querySelector("#recentCount");
 
-    const galleryGrid =
-        document.querySelector("#galleryGrid");
+  const clearBtn = document.querySelector("#clearGalleryBtn");
 
+  const filterButtons = document.querySelectorAll(".filter-btn");
 
-    const galleryEmpty =
-        document.querySelector("#galleryEmpty");
+  // ===============================
+  // GET DATA
+  // ===============================
 
-
-    const galleryActions =
-        document.querySelector("#galleryActions");
-
-
-    const totalAvatars =
-        document.querySelector("#totalAvatars");
-
-
-    const recentCount =
-        document.querySelector("#recentCount");
-
-
-    const clearBtn =
-        document.querySelector("#clearGalleryBtn");
-
-
-
-    const filterButtons =
-        document.querySelectorAll(".filter-btn");
-
-
-
-
-
-    // ===============================
-    // GET DATA
-    // ===============================
-
-
-    function getAvatars() {
-
-
-        try {
-
-
-            return JSON.parse(
-
-                localStorage.getItem(
-                    STORAGE_KEY
-                )
-
-                || "[]"
-
-            );
-
-
-
-        }
-
-        catch (error) {
-
-            return [];
-
-        }
-
-
+  function getAvatars() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    } catch (error) {
+      return [];
     }
+  }
 
+  // ===============================
+  // SAVE DATA
+  // ===============================
 
-
-
-// ===============================
-// SAVE DATA
-// ===============================
-
-
-function saveAvatars(data) {
-
-
+  function saveAvatars(data) {
     localStorage.setItem(
+      STORAGE_KEY,
 
-        STORAGE_KEY,
-
-        JSON.stringify(data)
-
+      JSON.stringify(data),
     );
+  }
 
+  // ===============================
+  // STATS
+  // ===============================
 
-}
-
-
-
-
-// ===============================
-// STATS
-// ===============================
-
-
-function updateStats(avatars) {
-
-
+  function updateStats(avatars) {
     if (totalAvatars) {
-
-        totalAvatars.textContent =
-            avatars.length;
-
+      totalAvatars.textContent = avatars.length;
     }
 
+    const week = Date.now() - 7 * 24 * 60 * 60 * 1000;
 
-
-    const week =
-        Date.now()
-        -
-        (7 * 24 * 60 * 60 * 1000);
-
-
-
-    const recent =
-        avatars.filter(item => {
-
-
-            return item.timestamp &&
-                new Date(item.timestamp).getTime()
-                >
-                week;
-
-
-        });
-
-
+    const recent = avatars.filter((item) => {
+      return item.timestamp && new Date(item.timestamp).getTime() > week;
+    });
 
     if (recentCount) {
-
-        recentCount.textContent =
-            recent.length;
-
+      recentCount.textContent = recent.length;
     }
+  }
 
+  // ===============================
+  // RENDER
+  // ===============================
 
-}
+  function renderGallery() {
+    let avatars = getAvatars();
 
-
-
-
-
-
-// ===============================
-// RENDER
-// ===============================
-
-
-function renderGallery() {
-
-
-    let avatars =
-        getAvatars();
-
-
-
-    updateStats(
-        avatars
-    );
-
-
+    updateStats(avatars);
 
     const activeFilter =
-        document.querySelector(
-            ".filter-btn.active"
-        )?.dataset.filter
-        ||
-        "all";
-
-
-
+      document.querySelector(".filter-btn.active")?.dataset.filter || "all";
 
     if (activeFilter === "recent") {
-
-
-        avatars.sort(
-            (a, b) =>
-                new Date(b.timestamp)
-                -
-                new Date(a.timestamp)
-        );
-
-
+      avatars.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     }
-
 
     if (activeFilter === "oldest") {
-
-
-        avatars.sort(
-            (a, b) =>
-                new Date(a.timestamp)
-                -
-                new Date(b.timestamp)
-        );
-
-
+      avatars.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     }
-
-
-
 
     if (!avatars.length) {
+      galleryGrid.innerHTML = "";
 
+      galleryEmpty.style.display = "block";
 
-        galleryGrid.innerHTML = "";
+      galleryActions.style.display = "none";
 
-
-        galleryEmpty.style.display =
-            "block";
-
-
-        galleryActions.style.display =
-            "none";
-
-
-        return;
-
-
+      return;
     }
 
+    galleryEmpty.style.display = "none";
 
+    galleryActions.style.display = "block";
 
-    galleryEmpty.style.display =
-        "none";
-
-
-    galleryActions.style.display =
-        "block";
-
-
-
-    galleryGrid.innerHTML =
-        avatars.map(
-            avatar => createCard(avatar)
-        ).join("");
-
-
+    galleryGrid.innerHTML = avatars
+      .map((avatar) => createCard(avatar))
+      .join("");
 
     attachEvents();
+  }
 
+  // ===============================
+  // CARD DESIGN
+  // ===============================
 
-}
-
-
-
-
-// ===============================
-// CARD DESIGN
-// ===============================
-
-
-function createCard(avatar) {
-
-
+  function createCard(avatar) {
     return `
 
 
@@ -284,11 +124,9 @@ function createCard(avatar) {
 <div class="avatar-card-preview">
 
 
-${avatar.thumbnail
-
-            ?
-
-            `
+${
+  avatar.thumbnail
+    ? `
 
 <img 
 src="${avatar.thumbnail}"
@@ -296,16 +134,12 @@ alt="${avatar.name}"
 >
 
 `
-
-            :
-
-            `
+    : `
 
 <i class="fas fa-user-circle"></i>
 
 `
-
-        }
+}
 
 
 </div>
@@ -329,11 +163,9 @@ ${avatar.date || "Unknown"}
 </p>
 
 
-${avatar.style
-
-            ?
-
-            `
+${
+  avatar.style
+    ? `
 
 <p class="avatar-style">
 Style:
@@ -341,10 +173,8 @@ ${avatar.style}
 </p>
 
 `
-
-            : ""
-
-        }
+    : ""
+}
 
 
 </div>
@@ -385,143 +215,60 @@ data-id="${avatar.id}"
 
 
 `;
+  }
 
-}
+  // ===============================
+  // EVENTS
+  // ===============================
 
+  function attachEvents() {
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.onclick = () => {
+        deleteAvatar(Number(btn.dataset.id));
+      };
+    });
 
+    document.querySelectorAll(".view-btn").forEach((btn) => {
+      btn.onclick = () => {
+        viewAvatar(Number(btn.dataset.id));
+      };
+    });
+  }
 
+  // ===============================
+  // DELETE AVATAR
+  // ===============================
 
-// ===============================
-// EVENTS
-// ===============================
+  function deleteAvatar(id) {
+    let avatars = getAvatars();
 
+    avatars = avatars.filter((item) => item.id !== id);
 
-function attachEvents() {
+    saveAvatars(avatars);
 
+    toast("Avatar deleted", "success");
 
-    document
-        .querySelectorAll(".delete-btn")
-        .forEach(btn => {
+    renderGallery();
+  }
 
+  // ===============================
+  // VIEW AVATAR MODAL
+  // ===============================
 
-            btn.onclick = () => {
+  function viewAvatar(id) {
+    const avatars = getAvatars();
 
+    const avatar = avatars.find((item) => item.id === id);
 
-                deleteAvatar(
-                    Number(btn.dataset.id)
-                );
+    if (!avatar) {
+      return;
+    }
 
+    const modal = document.createElement("div");
 
-            };
+    modal.className = "avatar-modal";
 
-
-        });
-
-
-
-    document
-        .querySelectorAll(".view-btn")
-        .forEach(btn => {
-
-
-            btn.onclick = () => {
-
-
-                viewAvatar(
-                    Number(btn.dataset.id)
-                );
-
-
-            };
-
-
-        });
-
-
-
-}
-
-
-// ===============================
-// DELETE AVATAR
-// ===============================
-
-
-function deleteAvatar(id){
-
-
-let avatars =
-getAvatars();
-
-
-
-avatars =
-avatars.filter(
-item=>item.id !== id
-);
-
-
-
-saveAvatars(
-avatars
-);
-
-
-
-toast(
-"Avatar deleted",
-"success"
-);
-
-
-
-renderGallery();
-
-
-}
-
-
-
-
-// ===============================
-// VIEW AVATAR MODAL
-// ===============================
-
-
-function viewAvatar(id){
-
-
-const avatars =
-getAvatars();
-
-
-
-const avatar =
-avatars.find(
-item=>item.id === id
-);
-
-
-
-if(!avatar){
-return;
-}
-
-
-
-const modal =
-document.createElement(
-"div"
-);
-
-
-
-modal.className =
-"avatar-modal";
-
-
-
-modal.innerHTML = `
+    modal.innerHTML = `
 
 
 <div class="modal-box">
@@ -537,11 +284,8 @@ modal.innerHTML = `
 
 
 ${
-avatar.thumbnail
-
-?
-
-`
+  avatar.thumbnail
+    ? `
 
 <img 
 src="${avatar.thumbnail}"
@@ -549,15 +293,11 @@ alt="${avatar.name}"
 >
 
 `
-
-:
-
-`
+    : `
 
 <i class="fas fa-user-circle"></i>
 
 `
-
 }
 
 
@@ -589,11 +329,8 @@ ${avatar.style || "Realistic"}
 
 
 ${
-avatar.modelUrl
-
-?
-
-`
+  avatar.modelUrl
+    ? `
 
 <a 
 href="${avatar.modelUrl}"
@@ -607,9 +344,7 @@ Download
 </a>
 
 `
-
-:""
-
+    : ""
 }
 
 
@@ -629,390 +364,180 @@ Close
 
 `;
 
+    document.body.appendChild(modal);
 
+    const close = () => {
+      modal.remove();
+    };
 
-document.body.appendChild(
-modal
-);
+    modal.querySelector(".modal-close").onclick = close;
 
+    modal.querySelector(".close-modal").onclick = close;
 
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        close();
+      }
+    };
+  }
 
-const close=()=>{
+  // ===============================
+  // FILTERS
+  // ===============================
 
-modal.remove();
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach((b) => b.classList.remove("active"));
 
-};
+      btn.classList.add("active");
 
+      renderGallery();
+    });
+  });
 
+  // ===============================
+  // CLEAR ALL
+  // ===============================
 
-modal
-.querySelector(".modal-close")
-.onclick=close;
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      const confirmDelete = confirm("Delete all avatars?");
 
+      if (confirmDelete) {
+        saveAvatars([]);
 
-modal
-.querySelector(".close-modal")
-.onclick=close;
+        toast("All avatars removed", "info");
 
+        renderGallery();
+      }
+    };
+  }
 
+  // ===============================
+  // TOAST
+  // ===============================
 
-modal.onclick=(e)=>{
+  function toast(message, type = "info") {
+    const old = document.querySelector(".gallery-toast");
 
+    if (old) {
+      old.remove();
+    }
 
-if(e.target===modal){
+    const colors = {
+      success: "#22c55e",
 
-close();
+      error: "#ef4444",
 
-}
+      info: "#3b82f6",
+    };
 
-};
+    const box = document.createElement("div");
 
+    box.className = "gallery-toast";
 
+    box.textContent = message;
 
-}
+    Object.assign(box.style, {
+      position: "fixed",
 
+      bottom: "30px",
 
+      right: "30px",
 
+      padding: "14px 22px",
 
+      borderRadius: "14px",
 
+      background: colors[type],
 
-// ===============================
-// FILTERS
-// ===============================
+      color: "#fff",
 
+      fontWeight: "600",
 
-filterButtons.forEach(btn=>{
+      zIndex: "99999",
 
+      boxShadow: "0 15px 40px rgba(0,0,0,.35)",
 
-btn.addEventListener(
-"click",
-()=>{
+      transition: ".3s ease",
+    });
 
+    document.body.appendChild(box);
 
-filterButtons.forEach(
-b=>b.classList.remove("active")
-);
+    setTimeout(() => {
+      box.style.opacity = "0";
 
+      setTimeout(() => {
+        box.remove();
+      }, 300);
+    }, 3000);
+  }
 
+  // ===============================
+  // DEFAULT SAMPLE DATA
+  // ===============================
 
-btn.classList.add(
-"active"
-);
+  function createSamples() {
+    const avatars = getAvatars();
 
+    if (avatars.length) {
+      return;
+    }
 
+    const samples = [
+      {
+        id: Date.now() + 1,
 
-renderGallery();
+        name: "Alex Johnson",
 
+        date: new Date().toLocaleDateString(),
 
+        timestamp: new Date().toISOString(),
 
-}
+        thumbnail: "https://i.pravatar.cc/300?img=12",
 
-);
+        style: "realistic",
+      },
 
+      {
+        id: Date.now() + 2,
 
-});
+        name: "Emma Wilson",
 
+        date: new Date(Date.now() - 86400000).toLocaleDateString(),
 
+        timestamp: new Date(Date.now() - 86400000).toISOString(),
 
+        thumbnail: "https://i.pravatar.cc/300?img=32",
 
+        style: "stylized",
+      },
 
-// ===============================
-// CLEAR ALL
-// ===============================
+      {
+        id: Date.now() + 3,
 
+        name: "David Smith",
 
-if(clearBtn){
+        date: new Date(Date.now() - 172800000).toLocaleDateString(),
 
+        timestamp: new Date(Date.now() - 172800000).toISOString(),
 
-clearBtn.onclick=()=>{
+        thumbnail: "https://i.pravatar.cc/300?img=45",
 
+        style: "cartoon",
+      },
+    ];
 
-const confirmDelete =
-confirm(
-"Delete all avatars?"
-);
+    saveAvatars(samples);
+  }
 
+  // ===============================
+  // START
+  // ===============================
 
+  createSamples();
 
-if(confirmDelete){
+  renderGallery();
 
-
-saveAvatars([]);
-
-
-
-toast(
-"All avatars removed",
-"info"
-);
-
-
-
-renderGallery();
-
-
-
-}
-
-
-
-};
-
-
-}
-
-
-
-
-
-
-// ===============================
-// TOAST
-// ===============================
-
-
-function toast(
-message,
-type="info"
-){
-
-
-const old =
-document.querySelector(
-".gallery-toast"
-);
-
-
-
-if(old){
-
-old.remove();
-
-}
-
-
-
-const colors={
-
-success:"#22c55e",
-
-error:"#ef4444",
-
-info:"#3b82f6"
-
-};
-
-
-
-const box =
-document.createElement(
-"div"
-);
-
-
-
-box.className =
-"gallery-toast";
-
-
-
-box.textContent =
-message;
-
-
-
-Object.assign(
-box.style,
-{
-
-position:"fixed",
-
-bottom:"30px",
-
-right:"30px",
-
-padding:"14px 22px",
-
-borderRadius:"14px",
-
-background:
-colors[type],
-
-color:"#fff",
-
-fontWeight:"600",
-
-zIndex:"99999",
-
-boxShadow:
-"0 15px 40px rgba(0,0,0,.35)",
-
-transition:".3s ease"
-
-}
-
-);
-
-
-
-document.body.appendChild(
-box
-);
-
-
-
-setTimeout(()=>{
-
-
-box.style.opacity="0";
-
-
-setTimeout(()=>{
-
-box.remove();
-
-},300);
-
-
-
-},3000);
-
-
-
-}
-
-
-
-
-
-// ===============================
-// DEFAULT SAMPLE DATA
-// ===============================
-
-
-function createSamples(){
-
-
-const avatars =
-getAvatars();
-
-
-
-if(avatars.length){
-
-return;
-
-}
-
-
-
-const samples=[
-
-
-{
-
-id:Date.now()+1,
-
-name:"Alex Johnson",
-
-date:
-new Date().toLocaleDateString(),
-
-timestamp:
-new Date().toISOString(),
-
-thumbnail:
-"https://i.pravatar.cc/300?img=12",
-
-style:"realistic"
-
-},
-
-
-{
-
-id:Date.now()+2,
-
-name:"Emma Wilson",
-
-date:
-new Date(
-Date.now()-86400000
-)
-.toLocaleDateString(),
-
-timestamp:
-new Date(
-Date.now()-86400000
-)
-.toISOString(),
-
-thumbnail:
-"https://i.pravatar.cc/300?img=32",
-
-style:"stylized"
-
-},
-
-
-{
-
-id:Date.now()+3,
-
-name:"David Smith",
-
-date:
-new Date(
-Date.now()-172800000
-)
-.toLocaleDateString(),
-
-timestamp:
-new Date(
-Date.now()-172800000
-)
-.toISOString(),
-
-thumbnail:
-"https://i.pravatar.cc/300?img=45",
-
-style:"cartoon"
-
-}
-
-
-];
-
-
-
-saveAvatars(
-samples
-);
-
-
-
-}
-
-
-
-
-
-// ===============================
-// START
-// ===============================
-
-
-createSamples();
-
-
-renderGallery();
-
-
-
-console.log(
-"🖼️ AvatarForge Gallery v2 Loaded"
-);
-
-
-
+  console.log("🖼️ AvatarForge Gallery v2 Loaded");
 })();
