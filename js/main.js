@@ -2,7 +2,7 @@
  * AvatarForge AI - Landing Page
  */
 
-(function() {
+(function () {
     'use strict';
 
     // Navbar
@@ -11,19 +11,19 @@
     const navLinks = document.getElementById('navLinks');
 
     if (navToggle && navLinks) {
-        navToggle.addEventListener('click', function(e) {
+        navToggle.addEventListener('click', function (e) {
             e.stopPropagation();
             navLinks.classList.toggle('open');
         });
-        navLinks.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
+        navLinks.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
                 navLinks.classList.remove('open');
             });
         });
     }
 
     if (navbar) {
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             navbar.classList.toggle('scrolled', window.scrollY > 50);
         }, { passive: true });
     }
@@ -165,8 +165,8 @@
     }
 
     // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-        anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 e.preventDefault();
@@ -177,8 +177,8 @@
 
     // Intersection Observer
     if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
@@ -186,7 +186,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.feature-card, .step').forEach(function(el) {
+        document.querySelectorAll('.feature-card, .step').forEach(function (el) {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
