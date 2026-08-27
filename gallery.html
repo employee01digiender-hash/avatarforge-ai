@@ -1,142 +1,109 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery - AvatarForge AI</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <nav class="navbar">
-        <div class="container navbar-container">
-            <div class="navbar-brand">
-                <span class="brand-icon">✦</span>
-                <span class="brand-text">Avatar<span class="brand-highlight">Forge</span> AI</span>
-            </div>
-            <ul class="navbar-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="generator.html">Generator</a></li>
-                <li><a href="gallery.html" class="active">Gallery</a></li>
-            </ul>
-            <div class="navbar-actions">
-                <a href="generator.html" class="btn btn-primary btn-sm">Get Started</a>
-               <button 
-    class="nav-toggle" 
-    id="navToggle"
-    type="button"
->
-    <span class="hamburger"></span>
-</button>
-            </div>
-      <div class="container navbar-container">
-        <div class="navbar-brand">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery - AvatarForge AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <div class="navbar-brand">
+        <span class="brand-icon">✦</span>
+        <span class="brand-text">Avatar<span class="brand-highlight">Forge</span> AI</span>
+      </div>
+      <ul class="navbar-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="generator.html">Generator</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="generator.html" class="btn btn-primary btn-sm">Get Started</a>
+        <button class="nav-toggle" id="navToggle" type="button">
+          <span class="hamburger"></span>
+        </button>
+      </div>
+  </nav>
+
+  <section class="gallery-page">
+    <div class="container">
+      <div class="gallery-header">
+        <h1>Avatar <span class="gradient-text">Gallery</span></h1>
+        <p>Browse through your generated 3D avatars.</p>
+      </div>
+
+      <div class="gallery-stats" id="galleryStats">
+        <div class="stat-item">
+          <span class="stat-number" id="totalAvatars">0</span>
+          <span class="stat-label">Total Avatars</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="recentCount">0</span>
+          <span class="stat-label">This Week</span>
+        </div>
+      </div>
+
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="recent">Recent</button>
+        <button class="filter-btn" data-filter="oldest">Oldest</button>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+      <div class="gallery-empty" id="galleryEmpty" style="display: none">
+        <i class="fas fa-cube"></i>
+        <h3>No Avatars Yet</h3>
+        <p>Create your first 3D avatar using the generator!</p>
+        <a href="generator.html" class="btn btn-primary">
+          <i class="fas fa-wand-magic-sparkles"></i> Create Avatar
+        </a>
+      </div>
+
+      <div class="gallery-actions" id="galleryActions" style="display: none">
+        <button class="btn btn-outline" id="clearGalleryBtn">
+          <i class="fas fa-trash"></i> Clear All Avatars
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
           <span class="brand-icon">✦</span>
-          <span class="brand-text"
-            >Avatar<span class="brand-highlight">Forge</span> AI</span
-          >
+          <span class="brand-text">Avatar<span class="brand-highlight">Forge</span> AI</span>
+          <p>
+            Create stunning 3D avatars with the power of artificial
+            intelligence.
+          </p>
         </div>
-        <ul class="navbar-links" id="navLinks">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="generator.html">Generator</a></li>
-          <li><a href="gallery.html" class="active">Gallery</a></li>
-        </ul>
-        <div class="navbar-actions">
-          <a href="generator.html" class="btn btn-primary btn-sm"
-            >Get Started</a
-          >
-          <button class="nav-toggle" id="navToggle">
-            <span class="hamburger"></span>
-          </button>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <a href="generator.html">Generator</a>
+          <a href="gallery.html">Gallery</a>
         </div>
-      </div>
-    </nav>
-
-    <section class="gallery-page">
-      <div class="container">
-        <div class="gallery-header">
-          <h1>Avatar <span class="gradient-text">Gallery</span></h1>
-          <p>Browse through your generated 3D avatars.</p>
-        </div>
-
-        <div class="gallery-stats" id="galleryStats">
-          <div class="stat-item">
-            <span class="stat-number" id="totalAvatars">0</span>
-            <span class="stat-label">Total Avatars</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="recentCount">0</span>
-            <span class="stat-label">This Week</span>
-          </div>
-        </div>
-
-        <div class="gallery-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="recent">Recent</button>
-          <button class="filter-btn" data-filter="oldest">Oldest</button>
-        </div>
-
-        <div class="gallery-grid" id="galleryGrid"></div>
-
-        <div class="gallery-empty" id="galleryEmpty" style="display: none">
-          <i class="fas fa-cube"></i>
-          <h3>No Avatars Yet</h3>
-          <p>Create your first 3D avatar using the generator!</p>
-          <a href="generator.html" class="btn btn-primary">
-            <i class="fas fa-wand-magic-sparkles"></i> Create Avatar
-          </a>
-        </div>
-
-        <div class="gallery-actions" id="galleryActions" style="display: none">
-          <button class="btn btn-outline" id="clearGalleryBtn">
-            <i class="fas fa-trash"></i> Clear All Avatars
-          </button>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
         </div>
       </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <span class="brand-icon">✦</span>
-            <span class="brand-text"
-              >Avatar<span class="brand-highlight">Forge</span> AI</span
-            >
-            <p>
-              Create stunning 3D avatars with the power of artificial
-              intelligence.
-            </p>
-          </div>
-          <div class="footer-links">
-            <h4>Product</h4>
-            <a href="generator.html">Generator</a>
-            <a href="gallery.html">Gallery</a>
-          </div>
-          <div class="footer-links">
-            <h4>Legal</h4>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 AvatarForge AI. All rights reserved.</p>
-        </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AvatarForge AI. All rights reserved.</p>
       </div>
-    </footer>
-    
-<script src="js/gallery.js"></script>
-<script src="js/main.js"></script>
+    </div>
+  </footer>
+
+  <script src="js/gallery.js"></script>
+  <script src="js/main.js"></script>
 </body>
-</html>
 
-    <script src="js/gallery.js"></script>
-  </body>
 </html>

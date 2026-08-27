@@ -6,68 +6,50 @@
     'use strict';
 
     // ===============================
-// NAVBAR MOBILE
-// ===============================
+    // NAVBAR MOBILE
+    // ===============================
 
-const navbar = document.getElementById('navbar');
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-
-
-if (navToggle && navLinks) {
-
-    navToggle.addEventListener('click', function(e) {
-
-        e.stopPropagation();
-
-        navToggle.classList.toggle('active');
-
-        navLinks.classList.toggle('open');
-
-    });
-
-
-    navLinks.querySelectorAll('a').forEach(function(link) {
-
-        link.addEventListener('click', function() {
-
-            navToggle.classList.remove('active');
-
-            navLinks.classList.remove('open');
+    const navbar = document.getElementById("navbar");
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
 
     if (navToggle && navLinks) {
-        navToggle.addEventListener('click', function (e) {
+
+        navToggle.addEventListener("click", function (e) {
+
             e.stopPropagation();
-            navLinks.classList.toggle('open');
+
+            navToggle.classList.toggle("active");
+            navLinks.classList.toggle("open");
+
         });
-        navLinks.querySelectorAll('a').forEach(function (link) {
-            link.addEventListener('click', function () {
-                navLinks.classList.remove('open');
+
+
+        navLinks.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                navToggle.classList.remove("active");
+                navLinks.classList.remove("open");
+
             });
+
         });
 
-    });
-
-}
+    }
 
 
-
-if (navbar) {
-
-    window.addEventListener('scroll', function() {
-
-        navbar.classList.toggle(
-            'scrolled',
-            window.scrollY > 50
-        );
-
-    }, { passive: true });
-
-}
     if (navbar) {
-        window.addEventListener('scroll', function () {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+        window.addEventListener("scroll", function () {
+
+            navbar.classList.toggle(
+                "scrolled",
+                window.scrollY > 50
+            );
+
         }, { passive: true });
+
     }
 
     // Three.js Hero Viewer
